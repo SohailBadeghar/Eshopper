@@ -44,11 +44,7 @@ DEFAULT_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
 
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.github',
-    # 'allauth.socialaccount.providers.google',
+ 
 ]
 
 
@@ -80,7 +76,7 @@ MIDDLEWARE = [
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend',
+   
 ]
 
 SITE_ID  = 8
