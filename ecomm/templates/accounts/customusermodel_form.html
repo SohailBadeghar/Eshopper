@@ -1,0 +1,46 @@
+{% extends "base/base.html"  %}
+
+{% load static %}
+
+{% block start %}
+<style>
+    .centered {
+      position: absolute;
+      top: 95%;
+      left: 70%;
+      transform: translate(-50%, -50%);
+      padding:9px;
+    }
+    </style>
+    <section id="form">
+    
+        <div class="col-sm-3 col-sm-offset-4">
+            <div class="login-form"><!--login form-->
+                <h2>Signup to your account</h2>
+                <form action="" method="post" novalidate>
+                    {% csrf_token %}
+                    {% if form.non_field_errors %}
+                        {% for error in forms.non_field_errors %}
+                        {% endfor %}
+                    {% endif %}
+                    {% for fm in form %}
+                        {{fm.label_tag}} {{fm}} {{fm.errors|striptags}}
+                        <p>{{error}}</p>
+                    {% endfor %}
+                    <button type="submit" class="btn btn-default">Signup</button>
+                </form> <br>
+                <span style="margin-left:60px">Already have an Account </span>&nbsp;<a href="{% url 'login' %}">Log In</a>
+ 
+            </div><!--/login form-->
+        </div>
+        {% if messages %}
+        {% for msg in messages %}
+            <div class="alert alert-info "> 
+            <small {% if msg.tags %}Class="{{ msg.tags }}" {% endif %}> {{msg}} </small>
+            </div>
+        {% endfor %}
+        {% endif %} <br> <br>
+
+
+    </section>
+{% endblock %}

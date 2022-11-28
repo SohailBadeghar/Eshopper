@@ -1,0 +1,228 @@
+{% extends "base/base.html"  %}
+{% load static %}
+{% load cart %}
+
+{% block start %}
+
+	<section id="cart_items">
+		<div class="container">
+			<div class="table-responsive cart_info">
+				<table class="table table-condensed">
+					<thead>
+						<tr class="cart_menu">
+							<td class="image">Item</td>
+							<td class="description"></td>
+							<td class="price">Price</td>
+							<td class="quantity">Quantity</td>
+							<td class="total">Total</td>
+							<td class="total">Remove</td>
+
+							<td></td>
+						</tr>
+					</thead>
+					<tbody>
+						
+						{% for cart in carts %}
+							<tr>
+								{% for image in cart.product.product_images.all %}
+								<td class="cart_product">
+									<a href=""><img style="height:140px" src="/media/{{image.image}}"></a>
+								</td>
+								{% endfor %}
+	
+								<td class="cart_description">
+									<h4><a href="">{{cart.product.name|capfirst}}</a></h4>
+								</td>
+								<td class="cart_price">
+									<p>Rs.{{cart.product.price}}</p>	
+								</td>
+	
+								<td class="cart_quantity" style="width:200px;"> 
+										<div class="cart_quantity_button" style="display: inline-flex;">											
+											<a class="minus-cart btn" pid="{{cart.product.id}}"><button style="font-size:13px" id="minus" value="minus"><i class="fa fa-minus"></i></button></a>
+											<span id="plus-minus" class="cart_quantity_input" type="text">{{cart.quantity}}</span>
+											<a class="plus-cart btn" pid="{{cart.product.id}}"><button style="font-size:13px" id="plus" value="plus"><i class="fa fa-plus"></i></button></a>
+										</div>
+								</td>
+								<td class="cart_total">
+									<span style="font-size:20px" id="amount">{{cart|price_total}}</span>
+								</td>
+								<td class="cart_delete">
+									<a class="btn btn-default update remove-cart" pid="{{cart.product.id}}" href="">Remove<i class="fa fa-times"></i></a>
+								</td>
+								{% endfor %}
+							</tr>
+						</tbody>
+				</table>
+			</div>
+		</div>
+	</section> <!--/#cart_items-->
+
+	<section id="do_action">
+		<div class="container">
+			<div class="heading">
+				<h3>What would you like to do next?</h3>
+				<p>Choose if you have a discount code or reward points you want to use or would like to estimate your delivery cost.</p>
+			</div>
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="chose_area">
+						<ul class="user_option">
+							<li>
+								<form method="POST">{% csrf_token %}
+									{% include 'base/alert.html' %}
+
+									<div class="form-group">
+										<label>Have coupon?</label>
+										<div class="input-group">
+											<input type="text" name="coupon" class="form-control"  placeholder="Coupon code" required>
+											<span class="input-group-append"> 
+												<button class="btn btn-primary">Apply</button>
+											</span>
+										</div>
+									</div>
+								</form>
+							</li>
+							<!-- <li>
+								<input type="checkbox">
+								<label>Use Gift Voucher</label>
+							</li>
+							<li>
+								<input type="checkbox">
+								<label>Estimate Shipping & Taxes</label>
+							</li> -->
+						</ul>
+						<!-- <ul class="user_info">
+							<li class="single_field">
+								<label>Country:</label>
+								<select>
+									<option>United States</option>
+									<option>Bangladesh</option>
+									<option>UK</option>
+									<option>India</option>
+									<option>Pakistan</option>
+									<option>Ucrane</option>
+									<option>Canada</option>
+									<option>Dubai</option>
+								</select>
+								
+							</li>
+							<li class="single_field">
+								<label>Region / State:</label>
+								<select>
+									<option>Select</option>
+									<option>Dhaka</option>
+									<option>London</option>
+									<option>Dillih</option>
+									<option>Lahore</option>
+									<option>Alaska</option>
+									<option>Canada</option>
+									<option>Dubai</option>
+								</select>
+							
+							</li>
+							<li class="single_field zip-field">
+								<label>Zip Code:</label>
+								<input type="text">
+							</li>
+						</ul> -->
+						<!-- <a class="btn btn-default update" href="">Get Quotes</a>
+						<a class="btn btn-default check_out" href="">Continue</a> -->
+						<br>
+					</div>
+				</div>
+				<div class="col-sm-6">
+					<div class="total_area">
+						<ul>
+							<li>Cart Sub Total <span>${{total}}0</span></li>
+							<!-- <li>Eco Tax <span>$2</span></li> -->
+							<li>Shipping Cost <span>Free</span></li> 
+							{% if discount %}
+							<li>Discount <span>{{discount}}</span></li> 
+                             {% else %}
+							<li>Discount <span>0.00</span></li>
+							{% endif %} 
+
+							{% if coupon %}
+							{% endif %}
+
+							<li>Total <span id="totalamount"> <b> ${{total}}0 </b></span></li>
+						</ul>
+							<a class="btn btn-default update" href="">Update</a>
+							<a class="btn btn-default check_out" href="{% url 'place_order'  %}">Check Out</a>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</section><!--/#do_action-->
+
+
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+
+	<script>
+		$(".minus-cart").click(function() {
+
+			var id = $(this).attr("pid").toString();
+			console.log(id)
+
+			var eml = this.parentNode.children[1]
+			
+			var em2 = this.parentNode.parentNode.parentNode.children[4]
+			console.log(id)
+
+			var d = document.getElementById("minus").value;
+			$.ajax({
+			   type:"GET",
+			   url:"{% url 'minuscart' %}",
+			   
+			   data:{
+				   prod_id :id,op:d
+			   },
+			   success:function(data){
+				eml.textContent =data.quantity
+				em2.textContent = data.total
+				document.getElementById('totalamount').textContent = data.total_amount
+			   }
+			})
+		   }
+		   )
+		
+		$(".plus-cart").click(function() {
+			var id = $(this).attr("pid").toString();
+			var eml = this.parentNode.children[1]
+			var em2 = this.parentNode.parentNode.parentNode.children[4]
+			var d = document.getElementById("plus").value;
+			$.ajax({
+			   type:"GET",
+			   url:"{% url 'minuscart' %}",
+			   data:{
+				   prod_id :id
+			   },
+			   success:function(data){
+				eml.textContent =data.quantity
+				em2.textContent = data.total
+				document.getElementById('totalamount').textContent = data.total_amount
+				  
+			   }
+			})
+		})   
+
+		$(".remove-cart").click(function() {
+			var id = $(this).attr("pid").toString();
+			var eml = this
+			$.ajax({
+			   type:"GET",
+			   url:"{% url 'removecart' %}",
+			   data:{
+				   prod_id :id
+			   },
+			   success:function(data){
+				   eml.parentNode.parentNode.remove()
+			   }
+			})
+		   })
+
+	</script>
+
+    {% endblock %}

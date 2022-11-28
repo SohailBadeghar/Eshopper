@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+	
+{% load static %}
+{% load socialaccount %}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Home | E-Shopper</title>
+	{% load static %}
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.2.7/dist/css/autoComplete.min.css">
+    <link href="{% static 'home/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'home/css/font-awesome.min.css' %}" rel="stylesheet">
+    <link href="{% static 'home/css/prettyPhoto.css' %}Could not parse the remainder: '/js/jquery.js' from 'home/js/jquery.js'
+	" rel="stylesheet">
+    <link href="{% static 'home/css/price-range.css' %}" rel="stylesheet">
+    <link href="{% static 'home/css/animate.css' %}" rel="stylesheet">
+	<link href="{% static 'home/css/main.css' %}" rel="stylesheet">
+	<link href="{% static 'home/css/responsive.css' %}" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->       
+    <link rel="shortcut icon" href="{% static 'home/images/ico/favicon.ico' %}">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href='{% static "home/images/ico/apple-touch-icon-144-precomposed.png" %}'>
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href='{% static "home/images/ico/apple-touch-icon-114-precomposed.png" %}'>
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href= '{% static "home/images/ico/apple-touch-icon-72-precomposed.png" %}'>
+    <link rel="apple-touch-icon-precomposed" href= '{% static "home/images/ico/apple-touch-icon-57-precomposed.png" %}'>
+</head><!--/head-->
+
+<body>
+	<header id="header"><!--header-->
+		<div class="header_top"><!--header_top-->
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="contactinfo">
+							<ul class="nav nav-pills">
+								<li><a href="#"><i class="fa fa-phone"></i> +2 95 01 88 821</a></li>
+								<li><a href="#"><i class="fa fa-envelope"></i> info@domain.com</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="social-icons pull-right">
+							<ul class="nav navbar-nav">
+								<li><a href="#"><i class="fa fa-facebook"></i></a></li>
+								<li><a href="#"><i class="fa fa-twitter"></i></a></li>
+								<li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+								<!-- <li><a href="{% provider_login_url 'github' %}"><i class="fa fa-github"></i></a></li> -->
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div><!--/header_top-->
+		
+		<div class="header-middle"><!--header-middle-->
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-4">
+						<div class="logo pull-left">
+							<a href="{% url 'homepage' %}"><img src="{% static 'home/images/home/logo.png' %}" alt="" /></a>
+						</div>
+						<div class="btn-group pull-right">
+							<div class="btn{% ststic -group">
+								<button type="button" class="btn btn-default dropdown-toggle usa" data-toggle="dropdown">
+									USA
+									<span class="caret"></span>
+								</button>
+								<ul class="dropdown-menu">
+									<li><a href="#">Canada</a></li>
+									<li><a href="#">UK</a></li>
+								</ul>
+							</div>
+							
+							<div class="btn-group">
+								<button type="button" class="btn btn-default dropdown-toggle usa" data-toggle="dropdown">
+									DOLLAR
+									<span class="caret"></span>
+								</button>
+								<ul class="dropdown-menu">
+									<li><a href="#">Canadian Dollar</a></li>
+									<li><a href="#">Pound</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+    {% if user.is_authenticated %}
+                    <div class="container">
+                        <div class="row">
+					        <div class="col-sm-8">
+                                <div class="shop-menu pull-right">
+							        <ul class="nav navbar-nav">
+                          <div class="mainmenu pull-left">
+                            <ul class="nav navbar-nav collapse navbar-collapse">
+                                <li class="dropdown"><a href="#"><i class="fa fa-user"></i> Accounts<i class="fa fa-angle-down"></i></a>
+                                    <ul role="menu" class="sub-menu">
+                                        <li><a href="{% url 'userprofilepage' %}">Profile</a></li>
+                                        <!-- <li><a href="product-details.html">Product Details</a></li>  -->
+                                        <!-- <li><a href="checkout.html">Checkout</a></li>  -->
+                                        <li><a href="{% url 'new_password' %}">Change Password</a></li> 
+                                        <li><a href="{% url 'adresses' %}">Manage Adresses</a></li> 
+                                        <li><a href="{% url 'Order_History'%}">Order History</a></li>
+                                        <li><a href="{% url 'cart'%}">CheckOut</a></li>
+                                    </ul>
+                                </li> 
+								<li><a href="{% url 'showwishlist' %}"><i class="fa fa-star"></i> Wishlist</a></li>
+								<li><a href="{% url 'Tracking_Order' %}"><i class="fa fa-crosshairs"></i> My Order</a></li>
+                                <li><a href="{% url 'cart' %}"><i class="fa fa-shopping-cart"></i> Cart <span class="badge badge-info">{{cart}}</span></a></li>
+                                {% if user.is_authenticated %}
+                                <li><a href="{% url 'user_logout' %}"><i class="fa fa-lock"></i> Logout </a></li>
+                                {% else %}
+                                <li><a href="{% url 'login' %}"><i class="fa fa-lock"></i> Login </a></li>
+                                {% endif %}
+                            </ul>
+						</ul>
+                            </div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div><!--/header-middle-->
+	{% else %}
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-8">
+                        <div class="shop-menu pull-right">
+                            <ul class="nav navbar-nav">
+                <div class="mainmenu pull-left">
+                    <ul class="nav navbar-nav collapse navbar-collapse">
+                        {% if user.is_authenticated %}
+                        <li><a href="{% url  'showwishlist' %}"><i class="fa fa-star"></i> Wishlist</a></li>
+                        {% else %}
+                        <li><a href="{% url 'login' %}"><i class="fa fa-lock"></i> Wishlist </a></li>
+                        {% endif %}
+                        <li><a href="{% url 'Tracking_Order' %}"><i class="fa fa-crosshairs"></i> My Orders</a></li>
+                        <li><a href="{% url 'cart' %}"><i class="fa fa-shopping-cart"></i> Cart <span class="badge badge-info">{{totalitem}}</span></a></li>
+                        {% if user.is_authenticated %}
+                        <li><a href="{% url 'user_logout' %}"><i class="fa fa-lock"></i> Logout </a></li>
+                        {% else %}
+                        <li><a href="{% url 'login' %}"><i class="fa fa-lock"></i> Login </a></li>
+                        {% endif %}
+                    </ul>
+                </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+        </div><!--/header-middle-->
+    {% endif %}
+		<div class="header-bottom"><!--header-bottom-->
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-9">
+						<div class="navbar-header">
+							<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+								<span class="sr-only">Toggle navigation</span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+							</button>
+						</div>
+						<div class="mainmenu pull-left">
+							<ul class="nav navbar-nav collapse navbar-collapse">
+								<li><a href="{% url 'homepage' %}" class="active">Home</a></li>
+								<li class="dropdown"><a href="#">Shop<i class="fa fa-angle-down"></i></a>
+                                    <ul role="menu" class="sub-menu">
+                                        <li><a href="{% url 'products' %}">Products</a></li>
+										<!-- <li><a href="product-details.html">Product Details</a></li> 
+										<li><a href="checkout.html">Checkout</a></li> 
+										<li><a href="cart.html">Cart</a></li> 
+										<li><a href="login.html">Login</a></li>  -->
+                                    </ul>
+                                </li> 
+								<li class="dropdown"><a href="#">Blog<i class="fa fa-angle-down"></i></a>
+                                    <ul role="menu" class="sub-menu">
+                                        <li><a href="{% url 'bloglist'  %}">Blog List</a></li>
+										<li><a href="{% url 'singleblog'  %}">Blog Single</a></li>
+                                    </ul>
+                                </li> 
+								<li><a href="{% url 'contactus' %}">Contact_Us</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-sm-3">
+                        <form class="form-inline" action="{% url 'searchproduct' %}" >
+                            <div class="md-form my-0">
+                              <input class="form-control mr-sm-2" name="search" type="text" placeholder="Search" aria-label="Search">
+                            </div>
+                        </form>       
+					</div>
+				</div>
+			</div>
+		</div><!--/header-bottom-->
+	</header><!--/header-->
+    
+    {% block start %}
+
+	{% endblock %}
+
+    <footer id="footer"><!--Footer-->
+        <div class="footer-top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-2">
+                        <div class="companyinfo">
+                            <h2><span>e</span>-shopper</h2>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,sed do eiusmod tempor</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-7">
+                        <div class="col-sm-3">
+                            <div class="video-gallery text-center">
+                                <a href="#">
+                                    <div class="iframe-img">
+                                        <img src="{% static 'home/images/home/iframe1.png'%}" alt="" />
+                                    </div>
+                                    <div class="overlay-icon">
+                                        <i class="fa fa-play-circle-o"></i>
+                                    </div>
+                                </a>
+                                <p>Circle of Hands</p>
+                                <h2>24 DEC 2014</h2>
+                            </div>
+                        </div>
+                        
+                        <div class="col-sm-3">
+                            <div class="video-gallery text-center">
+                                <a href="#">
+                                    <div class="iframe-img">
+                                        <img src="{% static 'home/images/home/iframe2.png'%}" alt="" />
+                                    </div>
+                                    <div class="overlay-icon">
+                                        <i class="fa fa-play-circle-o"></i>
+                                    </div>
+                                </a>
+                                <p>Circle of Hands</p>
+                                <h2>24 DEC 2014</h2>
+                            </div>
+                        </div>
+                        
+                        <div class="col-sm-3">
+                            <div class="video-gallery text-center">
+                                <a href="#">
+                                    <div class="iframe-img">
+                                        <img src="{% static 'home/images/home/iframe3.png'%}" alt="" />
+                                    </div>
+                                    <div class="overlay-icon">
+                                        <i class="fa fa-play-circle-o"></i>
+                                    </div>
+                                </a>
+                                <p>Circle of Hands</p>
+                                <h2>24 DEC 2014</h2>
+                            </div>
+                        </div>
+                        
+                        <div class="col-sm-3">
+                            <div class="video-gallery text-center">
+                                <a href="#">
+                                    <div class="iframe-img">
+                                        <img src="{% static 'home/images/home/iframe4.png'%}" alt="" />
+                                    </div>
+                                    <div class="overlay-icon">
+                                        <i class="fa fa-play-circle-o"></i>
+                                    </div>
+                                </a>
+                                <p>Circle of Hands</p>
+                                <h2>24 DEC 2014</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="address">
+                            <img src="images/home/map.png" alt="" />
+                            <p>505 S Atlantic Ave Virginia Beach, VA(Virginia)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-widget">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-2">
+                        <div class="single-widget">
+                            <h2>Service</h2>
+                            <ul class="nav nav-pills nav-stacked">
+                                <li><a href="#">Online Help</a></li>
+                                <li><a href="{% url 'contactus' %}">Contact Us</a></li>
+                                <li><a href="{% url 'Tracking_Order' %}">Order Status</a></li>
+                                <li><a href="#">Change Location</a></li>
+                                <li><a href="#">FAQ’s</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="single-widget">
+                            <h2>Quock Shop</h2>
+                            <ul class="nav nav-pills nav-stacked">
+                                <li><a href="#">T-Shirt</a></li>
+                                <li><a href="#">Mens</a></li>
+                                <li><a href="#">Womens</a></li>
+                                <li><a href="#">Gift Cards</a></li>
+                                <li><a href="#">Shoes</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="single-widget">
+                            <h2>Policies</h2>
+                            <ul class="nav nav-pills nav-stacked">
+                                <li><a href="#">Terms of Use</a></li>
+                                <li><a href="#">Privecy Policy</a></li>
+                                <li><a href="#">Refund Policy</a></li>
+                                <li><a href="#">Billing System</a></li>
+                                <li><a href="#">Ticket System</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="single-widget">
+                            <h2>About Shopper</h2>
+                            <ul class="nav nav-pills nav-stacked">
+                                <li><a href="#">Company Information</a></li>
+                                <li><a href="#">Careers</a></li>
+                                <li><a href="#">Store Location</a></li>
+                                <li><a href="#">Affillate Program</a></li>
+                                <li><a href="#">Copyright</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-sm-3 col-sm-offset-1">
+                        <div class="single-widget">
+                            <h2 style="text-align:center">About Shopper</h2>
+                            <p style="margin-left: 8rem;"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnUg_S8jc9xjw-UYRvEBtPdjO1Ytj75rcajbn-FY7z&s" alt=""></p>
+                            <p>Sohail Badeghar, MD and CEO, E-Shoppers Stop, speaks to Akanksha Nagar about his vision of being a house of brands, the increasing importance of loyalty programmes, and the promise of smaller towns. Excerpts: The company reported a solid start to FY23, posting a net profit for Q1.</p>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="row">
+                    <p class="pull-left"> E-SHOPPER Inc. All rights reserved.</p>
+                    <p class="pull-right">Designed by <span><a target="_blank" href="http://www.Eshopper.com">Sohail Badeghar</a></span></p>
+                </div>
+            </div>
+        </div>
+        
+    </footer>
+    {% block js %}
+    
+    <script src="{% static 'home/js/jquery.js' %}"></script>
+	<script src="{% static 'home/js/bootstrap.min.js' %}"></script>
+	<script src="{% static 'home/js/jquery.scrollUp.min.js' %}"></script>
+	<script src="{% static 'home/js/price-range.js' %}"></script>
+    <script src="{% static 'home/js/jquery.prettyPhoto.js' %}"></script>
+    <script src="{% static 'home/js/main.js' %}"></script>
+    <script src="{% static 'home/js/profile.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.2.7/dist/autoComplete.min.js"></script>
+
+
+    {% endblock %}
+
+    
+
+
+
+</body>
+</html>

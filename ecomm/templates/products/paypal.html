@@ -1,0 +1,67 @@
+{% extends "base/base.html"  %}
+
+{% load static %}
+{% load cart %}
+
+
+{% block start %}
+	<section id="cart_items">
+		<div class="container">
+	        <div id="paypal-button-container"></div>
+        </div>			
+	</section> <!--/#cart_items-->
+
+    {{total}}
+                 {% for order in orders %}
+
+                {% endfor %}
+    <!-- Include the PayPal JavaScript SDK -->
+    <!-- <script src="https://www.paypal.com/sdk/js?client-id=ARLcthYbnJYHlaU5C5jFlHJf9U3t2xZFcneO8IvOD6EMdAHwfZ-28boucWHQO4XmtUbjONnhs2c98MS2&currency=USD"></script> -->
+    <script src="https://www.paypal.com/sdk/js?client-id=AXbgiMy-yBiE4sx2tZIbpdRws-RkeyVbTx_ZRBYhtBOg4a35-neju8VwRUWT6i4krPrOeIz-sYNzdU8s&currency=USD"></script>
+
+
+
+    <script>
+        
+        var total = '{{total}}'  
+        paypal.Buttons({
+
+            createOrder: function(data, actions) {
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: {
+                            value:  parseFloat(total).toFixed(2)
+                        }
+                    }]
+                });
+            },
+
+            onApprove: function(data, actions) {
+                return actions.order.capture().then(function(orderData) {
+                    console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+                    var transaction = orderData.purchase_units[0].payments.captures[0];
+                    // alert('Transaction '+ transaction.status + ': ' + transaction.id + '\n\nSee console for all available details');
+                    $.ajax(
+                        {
+        type:"GET",
+        url: "{% url 'complete' %}",
+        data:{
+                 t_id: transaction.id
+        },
+        // success: function( data ) 
+        // {
+        //     alert("hello your transaction has been completed ")
+        // }
+     })
+                
+                });
+            }
+
+
+        }).render('#paypal-button-container');
+    </script>
+    {% endblock %}
+
+
+
+    

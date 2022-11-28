@@ -1,0 +1,15 @@
+{% extends "base/base.html"  %}
+{% load static %}
+{% block start %}
+<section>
+    <div class="container">
+        <form method="post">  
+            {% csrf_token %}  
+                
+                <p>Are you sure you want to delete "{{ object.user }}"?</p>  
+            
+                <input type="submit" value="Confirm">  
+            </form>  
+        </div>
+</section>
+{% endblock %}

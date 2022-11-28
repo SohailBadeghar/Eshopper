@@ -1,0 +1,68 @@
+{% extends "base/base.html"  %}
+
+
+
+{% load static %}
+
+{% block start %}
+<link href="{% static 'home/css/profile.css' %}" rel="stylesheet">
+
+    <section >
+        <form action="{% url 'edit_address' id %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="container rounded bg-white mt-5 mb-5">
+                <div class="row">
+                    {% comment %} <div class="col-md-3 border-right">
+                        <!-- <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" style="width: 150px;height: 150px;border-radius: 50%;" src="https://images.pexels.com/photos/792326/pexels-photo-792326.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"></div><br> -->
+                        <div class="row">
+                            <div class="small-12 medium-2 large-2 columns">
+                              <div class="circle">
+                                <img class="profile-pic" src="https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg">
+                         
+                              </div>
+                              <div class="p-image camicon">
+                                <i class="fa fa-camera upload-button sizeicon"></i>
+                                 <input class="file-upload myclass" type="file" accept="image/*"/> <br>
+                                 
+                              </div>
+
+                           </div>
+                         </div>
+                    </div> {% endcomment %}
+                    <div id="example-div" class="bg-info border d-flex aligns-items-center justify-content-center" style="height:100px">
+                        <p>This is a content</p>
+                   </div>
+                    <div class="col-md-5 border-right">
+                        <div class="p-3 py-5">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h4 class="text-right">Profile Settings</h4>
+                            </div>
+                            <div class="row mt-2 ">
+                                <div class="col-md-6"><label class="labels">Name</label><input type="text" name="Name" class="form-control" placeholder="first name" value="{{userinfo.first_name|capfirst}}"></div>
+                                <div class="col-md-6"><label class="labels">Surname</label><input type="text" name="Surname" class="form-control" value="{{userinfo.last_name|capfirst}}" placeholder="surname"></div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-md-12"><label class="labels">Mobile Number</label><input type="text" name="mobile_number" class="form-control" placeholder="enter phone number" value="{{mob}}"></div>
+                                <div class="col-md-12"><label class="labels">Address Line 1</label><input type="text" name="address_1"class="form-control" placeholder="enter address line 1" value="{{add1}}"></div>
+                                <div class="col-md-12"><label class="labels">Address Line 2</label><input type="text"name="address_2" class="form-control" placeholder="enter address line 2" value="{{add2}}"></div>
+                                <div class="col-md-12"><label class="labels">City</label><input type="text" name="city"class="form-control" placeholder="enter address line 2" value="{{city}}"></div>
+                                <div class="col-md-12"><label class="labels">State</label><input type="text" name="state"class="form-control" placeholder="enter address line 2" value="{{state}}"></div>
+                                <div class="col-md-12"><label class="labels">Country</label><input type="text" name="country"class="form-control" placeholder="enter address line 2" value="{{country}}"></div>
+                                <div class="col-md-12"><label class="labels">Email ID</label><input type="text"name="Email" class="form-control" placeholder="enter email id" value="{{request.user}}"></div>
+                                <div class="col-md-12"><label class="labels">ZipCode</label><input type="text"name="zipcode" class="form-control" placeholder="education" value="{{zipcode}}"></div>
+                                <!-- <div class="col-md-12"><label class="labels">image</label><input type="file" id="id_image" src="img_submit.gif" name="img" width="48" height="48"></div> -->
+                            
+                            </div>
+                            <div class="row">
+                                <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="submit">update</button></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+            </div>
+    </form>
+
+    </section>
+{% endblock %}

@@ -1,0 +1,225 @@
+{% extends "base/base.html"  %}
+
+
+
+{% load static %}
+{% load cart %}
+
+
+{% block start %}
+
+<section>
+    <div class="container">
+        <div class="row ">
+            <div class="col-sm-3">
+                <div class="left-sidebar">
+                        <div class="container">
+                            <div class="py-5 text-center">
+                              <h2>Checkout form</h2>
+                              
+                            </div>
+                            
+                          <form action="{% url 'place_order' %}"class="needs-validation"  method='post' novalidate>
+                            {% csrf_token %}
+                              <div class="row">
+                                <div class="col-md-6 mb-3">
+                                  <label for="firstName">Full name</label>
+                                  <input type="text" class="form-control" name="name" id="firstName" placeholder="" value="{{userinfo.first_name|capfirst}}" required>
+                                  
+                                </div>
+                                <!-- <div class="col-md-6 mb-3">
+                                  <label for="lastName">Last name</label>
+                                  <input type="text" class="form-control" id="lastName" placeholder="" value="{{userinfo.last_name|capfirst}}" required>
+                               
+                                </div><br> -->
+
+                                  <div class="col-md-6 mb-3">
+                                    <label for="email">Email <span class="text-muted"></span></label>
+                                    <input type="email" class="form-control" id="email" name="email" placeholder="" value="{{request.user}}" required>
+ 
+                                  </div><br>
+
+
+                                  <div class="col-md-6 mb-3">
+                                    <label for="email">Mobile No <span class="text-muted"></span></label>
+                                    <input type="email" class="form-control" name="mobile",id="email" placeholder="" value="{{adress.mobile_number}}">
+ 
+                                  </div><br>
+                              </div><br>
+                            <div class="row">
+                              <div class="col-md-6 order-md-1">
+                                <h3 class="mb-3">Shipping address </h3><hr>
+                          
+                          
+                                  <div class="mb-3">
+                                    <label for="address">Address1</label>
+                                    <input type="text" class="form-control" id="ship_address1" name="shipping_address_1" placeholder="" value={{adress.address_1|capfirst}} required>
+                                
+                                  </div><br>
+                          
+                                  <div class="mb-3">
+                                    <label for="address2">Address 2 <span class="text-muted">(Optional)</span></label>
+                                    <input type="text" class="form-control" id="ship_address2" name="shipping_address_2" placeholder="" value={{adress.address_2|capfirst}} >
+                                  </div><br>
+                          
+                                  <div class="row">
+                                    <div class="col-md-5 mb-3">
+                                      <label for="zip">State</label>
+
+
+                                      <select name="shipping_state" id="cars">
+                                    <option value="Goa">Goa</option>
+                                <option value="Maharashtra">Maharashtra</option>
+                                <option value="Gujrat">Gujrat</option>
+                                      </select>
+                               
+                                   
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                      <label for="zip">City</label>
+
+                                      <select name="shipping_city" id="cars">
+                                        <option value="Pune">Pune</option>
+                                        <option value="Mumbai">Mumbai</option>
+                                        <option value="Banglore">Banglore</option>
+                                        <option value="Delhi">Delhi</option>
+                                      </select>
+                                      
+                                    </div>
+                                  
+                                  </div><br>
+                                  <div class="col-md-3 mb-3">
+                                    <label for="zip">Zip</label>
+                                    <input type="text" class="form-control" id="ship_zip"  name="shipping_zipcode" placeholder="" value={{adress.zipcode}}  required>
+                               
+                                  </div><br>
+                                  <hr class="mb-4"><br>
+                                  <div class="custom-control custom-checkbox">
+                        
+                                    <input type="checkbox"  class="custom-control-input" id="same-address" name="same-address" onclick= "billingFunction()"/>
+                                    <label class="custom-control-label" for="same-address">Billing address is the same as my Shipping address</label>
+                                  </div>
+                                  <hr class="mb-4">
+                              </div>
+                              <div class="col-md-6 order-md-1">
+                                <h3 class="mb-3">Billing  address </h3><hr>
+                          
+                          
+                                  <div class="mb-3">
+                                    <label for="address">Address1</label>
+                                    <input type="text" class="form-control" id="bill_address1" name="billing_address_1" placeholder="" value="" required>
+                                
+                                  </div><br>
+                          
+                                  <div class="mb-3">
+                                    <label for="address2">Address 2 <span class="text-muted">(Optional)</span></label>
+                                    <input type="text" class="form-control" id="bill_address2" name="billing_address_2" placeholder="" value="">
+                                  </div><br>
+                          
+                                  <div class="row">
+                                    <div class="col-md-5 mb-3">
+                                      <label for="zip">State</label>
+
+                            <select name="billing_state" id="cars">
+                                <option value="Goa">Goa</option>
+                                <option value="Maharashtra">Maharashtra</option>
+                                <option value="Gujrat">Gujrat</option>
+                              </select>
+                               
+                                   
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                      <label for="zip">City</label>
+
+                                      <select name="billing_city" id="cars">
+                                          <option value="Pune">Pune</option>
+                                          <option value="Mumbai">Mumbai</option>
+                                          <option value="Banglore">Banglore</option>
+                                          <option value="Delhi">Delhi</option>
+                                        </select>
+                                    
+                                 
+                                      
+                                    </div>
+                                  
+                                  </div><br>
+                                  <div class="col-md-3 mb-3">
+                                    <label for="zip">Zip</label>
+                                    <input type="text" class="form-control" id="bill_zip"  name =" billing_zipcode" placeholder="" value=""  required>
+                               
+                                  </div><br>
+                              </div>
+                                  </div>
+                                </div>
+                            </div>
+
+                            <!-- <label for="cars">Payment Method:</label> -->
+<!-- 
+                            <select name="payment_gateway" id="cars">
+                                <option value="COD">COD</option>
+                                <option value="Paypal">Paypal</option>
+                                <option value="Razorpay">Razorpay</option>
+                                <option value="Stripe">Stripe</option>
+                                <option value="Braintree">Braintree</option>
+                              </select> -->
+                                  <h4 class="mb-3">Payment Method</h4>
+                                {% for  method in payment_methods %}
+                                  <div class="d-block my-3">
+                                    <div class="custom-control custom-radio">
+                                      <input id="{{method.name}}" name="payment_gateway" value="{{method.id}}" type="radio" class="custom-control-input" required>
+                                      <label class="custom-control-label" for="{{method.name}}">{{method.name}}</label>
+                                    </div>
+              
+                                  </div>
+                                  {% endfor %}
+                                  
+                                  <hr class="mb-4">
+                                  <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
+
+                              </div>
+                            </div>
+                          </form>
+                          
+                            <footer class="my-5 pt-5 text-muted text-center text-small">
+                              <p class="mb-1">&copy; 2017-2019 Company Name</p>
+                              <ul class="list-inline">
+                                <li class="list-inline-item"><a href="#">Privacy</a></li>
+                                <li class="list-inline-item"><a href="#">Terms</a></li>
+                                <li class="list-inline-item"><a href="#">Support</a></li>
+                              </ul>
+                            </footer>
+
+                          </div>                          
+                </div>
+            </div>
+        </div>          
+    </div> 
+
+    
+</section>
+
+
+<script>
+  
+  function billingFunction(){
+    
+    if (document.getElementById('same-address').checked)
+    {
+      document.getElementById('bill_address1').value = document.getElementById('ship_address1').value;
+      document.getElementById('bill_address2').value = document.getElementById('ship_address2').value;
+      document.getElementById('bill_country').value = document.getElementById('ship_country').value;
+      document.getElementById('bill_state').value = document.getElementById('ship_state').value;
+      document.getElementById('bill_zip').value = document.getElementById('ship_zip').value;
+    }
+    else{
+      document.getElementById('bill_address1').value = "";
+      document.getElementById('bill_address2').value = "";
+      document.getElementById('bill_country').value = "";
+      document.getElementById('bill_state').value = "";
+      document.getElementById('bill_zip').value= "";
+   };
+  } 
+
+</script>
+
+{% endblock %}

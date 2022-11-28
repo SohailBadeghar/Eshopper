@@ -1,0 +1,206 @@
+{% extends "base/base.html"  %}
+
+{% load static %}
+{% load cart %}
+
+
+{% block start %}
+
+	<section id="cart_items">
+		<div class="container">
+			<div class="step-one">
+				<h2 class="heading">Step1</h2>
+			</div>
+			<div class="checkout-options">
+				<h3>New User</h3>
+				<!-- <p>Checkout options</p> -->
+				<br>
+				<ul class="nav">
+					<li> 
+						<label><button type="submit" value="Register Account"></button>
+					</li>
+					<li>
+						<label><input type="checkbox"> Guest Checkout</label>
+					</li>
+					<li>
+						<a href=""><i class="fa fa-times"></i>Cancel</a>
+					</li>
+				</ul>
+			</div><!--/checkout-options-->
+
+			<div class="register-req">
+				<p>Please use Register And Checkout to easily get access to your order history, or use Checkout as Guest</p>
+			</div><!--/register-req-->
+
+			<div class="shopper-informations">
+				<div class="row">
+					<!-- <div class="col-sm-3">
+						<div class="shopper-info">
+							<p>Shopper Information</p>
+							<form>
+								<input type="text" placeholder="Display Name">
+								<input type="text" placeholder="User Name">
+								<input type="password" placeholder="Password">
+								<input type="password" placeholder="Confirm password">
+							</form>
+							<a class="btn btn-primary" href="">Get Quotes</a>
+							<a class="btn btn-primary" href="">Continue</a>
+						</div>
+					</div> -->
+
+					<div class="col-sm-5 clearfix">
+						<form action="" method="POST">{% csrf_token %}
+							{{form.as_p}}
+							<button type="submit" class="btn btn-primary"> SAVE AND DELIVER HERE </button>  
+						</form>
+					</div>
+                    
+
+					<div class="col-sm-4">
+						<div class="order-message">
+							<h4>Select Shipping Address</h4>
+							<form method="POST" action="{% url 'address' %}" class="post-form" id="myform">	{% csrf_token %}
+								{% for ad in orders %}		
+																<hr>
+						  	<div class="card">
+								<div class="card-body">
+								<h5>{{ad.name}}</h5>
+								<p>{{ad.address}} {{ad.locality}},{{ad.city}},{{ad.state}} - {{ad.zipcode}}</p>
+							</div>
+						</div>
+
+							<div class="form-check mt-2 mb-5">
+								<input class="form-check-input" type="radio" name="custid" id="custadd{{forloop.counter}}" value="{{ad.id}}">
+								<label class="form-check-label fw-bold" for="custadd{{forloop.counter}}">
+								Address: {{forloop.counter}} </label>
+							</div>
+
+							<div class="text-end">
+							   <button type="submit" class="btn btn-warning mt-3 px-5 fw-bold">Delivery Here </button> 
+					        </div>
+
+							</div>
+							{% endfor %}
+						  </form>
+						
+					<!-- <div class="col-sm-4">
+						<div class="order-message">
+							<p>Delivery Address</p>
+							<textarea name="message" value='{{orders.address}}' placeholder="Notes about your order, Special Notes for Delivery" rows="16"></textarea>
+							<label><input type="checkbox" > Shipping to bill address</label>
+						</div>	
+					</div>					 -->
+				</div>
+				</div>
+			</div>
+			<div class="review-payment">
+				<h2>Review & Payment</h2>
+			</div>
+
+			<div class="table-responsive cart_info">
+				<table class="table table-condensed">
+					<thead>
+						<tr class="cart_menu">
+							<td class="image">Item</td>
+							<td class="description"></td>
+							<td class="price">Price</td>
+							<td class="quantity">Quantity</td>
+							<td class="total">Total</td>
+							<td></td>
+						</tr>
+					</thead>
+					<tbody>
+						
+						{% for product in products %}
+								<tr>
+									<td class="cart_product">
+										<a href=""><img src="images/cart/one.png" alt=""></a>
+									</td>
+		
+									{% if product|is_in_cart:request.session.cart %}	
+									<td class="cart_description">
+										<h4><a href="">{{product.name}}</a></h4>
+										<p>Web ID: {{product.sku}}</p>
+									</td>
+									<td class="cart_price">
+										<p>{{product.price}}</p>	
+									</td>
+									
+										<!-- <td class="cart_quantity">
+										<div class="cart_quantity_button">
+											
+											<a class="cart_quantity_up" href=""> + </a>
+											<input class="cart_quantity_input" type="text" name="quantity" value="2" autocomplete="off" size="2">
+											<a class="cart_quantity_down" href=""> - </a>
+										</div>
+									</td> -->
+		
+									<td class="cart_quantity">
+		
+									<div class="cart_quantity_button">
+										<form action="{% url 'add_to_cart'  %}"  method="post">
+											{% csrf_token %}
+											<input hidden type="text" name='product' value='{{product.id}}'>
+											<input hidden type="text" name='remove' value='True'>
+											<input type="submit" value=" - " class="cart_quantity_down" min="1">
+										</form>
+										
+										<input class="cart_quantity_input" type="text" name="quantity" value='{{product|cart_quantity:request.session.cart}}' autocomplete="off" size="2">
+		
+										<form action="{% url 'add_to_cart'  %} " method="post">
+											{% csrf_token %}
+											<input hidden type="text" name='product' value='{{product.id}}'>
+											<input type="submit" value=" + " class="cart_quantity_up">
+										</form>
+									</div>
+									</td>
+							   
+									
+									{% endif %}	
+		
+									<td class="cart_total">
+										<p class="cart_total_price">{{product|price_total:request.session.cart}}</p>
+									</td>
+									<td class="cart_delete">
+										<a class="btn btn-default update" href="{% url 'remove_cart_item' product.id %}">Remove<i class="fa fa-times"></i></a>
+									</td>
+									{% endfor %}
+								</tr>
+							</tbody>
+				</table>
+			</div>
+
+			<div class="step-one">
+				<h2 class="heading" style="background-color: orange;" ><span style="background-color:white; padding: 3px 7px;">4</span> PAYMENT OPTION</h2>
+			</div>
+			<div class="payment-options">
+
+					<form action="{% url 'order_summary' %}" method="POST"> {% csrf_token %}<br>	  
+					<input type="radio" style="width: 18px; height: 18px; margin: 10px;" id="wallets" name="payment" value="wallets">
+					  <label for="wallets" >Wallets</label><br>
+					  <input type="radio" style="width: 18px; height: 18px; margin: 10px;" id="cards" name="payment" value="card">
+					  <label for="card">Credit / Debit / ATM Card</label><br>
+					  <input type="radio" style="width: 18px; height: 18px; margin: 10px;" id="netbanking" name="payment" value="netbanking">
+					  <label for="net">Net Banking</label> <br>
+					  <input type="radio" style="width: 18px; height: 18px; margin: 10px;" id="emi" name="payment" value="emi">
+					  <label for="emi">EMI (Easy Installments)</label> <br>
+					  <input type="radio" style="width: 18px; height: 18px; margin: 10px;" id="paypal" name="payment" value="paypal">
+					  <label for="upi"><I> PayPal </I></label>  <br>
+					  <input type="radio" style="width: 18px; height: 18px; margin: 10px;" id="razorpay" name="payment" value="razorpay">
+					  <label for="upi"><I> Razorpay </I></label>  <br>
+					  <!-- rzp-button1 -->
+					  <input type="radio" style="width: 18px; height: 18px; margin: 10px;" id="cod" name="payment" value="cod">
+					  <label for="cod">COD</label>  <br> 
+
+							{% if user.is_authenticated %}
+					  <button type="submit"  style="margin: 40px; background-color: #00FF00; height: 45px; " class="btn btn-primary"><b> CONFIRM ORDER </b></button>  
+					  		{% else %}
+					  <button>place</button>
+					 	 {% endif %}
+					</form>
+			</div>
+		</div>
+	</section> <!--/#cart_items-->
+
+	
+    {% endblock %}

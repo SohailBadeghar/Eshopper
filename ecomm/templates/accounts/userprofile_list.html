@@ -1,0 +1,67 @@
+{% extends "base/base.html"  %}
+{% block start %}
+<div class="container px-10">
+   <h1 class="h1">Your Addresses</h1>
+   <div>Manage your <b>addresses</b> and delivery preferences</div>
+    <hr/>
+    <br>
+
+    <div class="col" style="margin-left:400px">
+      <a href="{% url 'userprofilepage' %}" class="text-reset text-decoration-none" role="button"
+        style="max-width: 700px;">
+        
+        <div class="col-md-6">
+          <div class="card mb-3" style="border: dashed 2px #ccc;">
+            <div class="row g-0 h-200">
+              <div class="col-4" style="min-height:100px">
+                <div class="card-body text-center position-absolute top-50 start-50 translate-middle">
+                  <svg style="color:#ccc;" xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="currentColor"
+                    class="bi bi-plus" viewBox="0 0 16 16">
+                    <path
+                      d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+                  </svg>
+                  <h1 class="h4">Add Address</h1>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-8">
+        </div>
+      </a>
+    </div>
+  
+   <br><br><br><br><br><br>
+   
+   <div class="row" style="margin-top:50px">
+     {% for address in object_list %}
+     <div class="col-md-4" style=""; >
+            {% if address.default %}
+              <h4 style="color:green"><b>Default</b></h5>
+            {% endif %}
+            <div class="card-body pb-1">
+            <p class="card-text m-0"><b>MOB </b> : {{address.mobile_number}}</p>
+            <p class="card-text m-0"><b>ADD_1</b>: {{address.address_1 | capfirst}}</p>
+            <p class="card-text m-0"><b>ADD_2</b> : {{address.address_2| capfirst}}</p>
+            <p class="card-text m-0"><b>CITY</b> :{{address.city| capfirst}}</p>
+            <p class="card-text m-0"><b>STATE</b>  :{{address.state| capfirst}}</p>
+            <p class="card-text m-0"><b>PINCODE</b> : {{address.zipcode}}</p>
+            
+             <button> <a href="{% url 'edit_address' address.id %}" class="text-decoration-none">Edit</a></button> 
+              |
+              <button>  <a href="{% url 'delete_address' address.id %}" class="text-decoration-none">Delete</a></button> 
+              {% if not address.default %}
+              | <button > <a href="{% url 'set_default' address.id %}" class="text-decoration-none">Set Default</a></button> 
+              {% endif %}
+
+          </div>
+        </div>
+        {% endfor %}
+    </div>
+     
+   
+  
+</div>
+
+
+{% endblock %}
