@@ -11,7 +11,7 @@ urlpatterns = [
     path('', include('home.urls')),
     path('email/',include('Email_Template.urls')),
     path('products/', include('products.urls')),
-    path('socialauth/',include('allauth.urls')),
+    
 ]
 
 if settings.DEBUG:
